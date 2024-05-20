@@ -28,7 +28,7 @@ public class BusPosCtrl {
     public SseEmitter streamSse(
             @RequestParam(value = "bus_id") String bus_id) {
 
-        SseEmitter emitter = new SseEmitter();
+        SseEmitter emitter = new SseEmitter(3600 * 1000L);
          ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
 
         executor.scheduleAtFixedRate(() -> {
