@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vrainstroming.sfbrealtime.mapper.BusPosMapper">
+
+    <update id="updateBusPosition" parameterType="Map">
+
+        UPDATE BUS_TB AS BT
+        SET x_pos = #{x_pos} , y_pos = #{y_pos}
+        WHERE BT.id = (select owner_id from UWB_MODULE_TB where uuid=#{uuid})
+
+    </update>
+
+    <select id="getBusPosition" parameterType="Map" resultType="Map">
+        select BT.x_pos , BT.y_pos
+        from BUS_TB AS BT
+        JOIN UWB_MODULE_TB AS UMT
+        ON BT.id = UMT.owner_id
+        where UMT.uuid = #{uuid}
+    </select>
+
+
+</mapper>
+
+

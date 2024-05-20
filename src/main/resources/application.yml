@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: SfBRealTime
+  batch:
+    job:
+      enabled: false
+    jdbc:
+      initialize-schema: always
+  mvc:
+    async:
+      request-timeout: 10000
+
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://165.246.43.178:13306/SFB?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: msl1234~
+    mapper-locations: classpath:/mybatis/mapper/**/*.xml
+
+server:
+  port: 8080
