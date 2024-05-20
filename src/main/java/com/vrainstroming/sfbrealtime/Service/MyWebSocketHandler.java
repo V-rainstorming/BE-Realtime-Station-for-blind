@@ -37,8 +37,6 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
         catch (Exception e){
             e.printStackTrace();
         }
-
-        session.sendMessage(new TextMessage("Echo: " + payload));
     }
 
 }
