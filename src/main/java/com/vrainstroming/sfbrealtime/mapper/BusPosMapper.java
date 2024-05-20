@@ -8,4 +8,6 @@ import java.util.Map;
 public interface BusPosMapper {
     int updateBusPosition(Map map);
     Map getBusPosition(Map map);
+    int updateTempDemoBusPos(Map map);
+    Map getTempDemoBusPos(Map map);
 }

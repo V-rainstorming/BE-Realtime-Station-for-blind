@@ -19,6 +19,19 @@
         where UMT.uuid = #{uuid}
     </select>
 
+    <update id="updateTempDemoBusPos" parameterType="Map">
+        UPDATE TEMP_TB
+        SET dist = #{dist}
+        where bus_id = #{bus_id}
+    </update>
+
+    <select id="getTempDemoBusPos" parameterType="Map" resultType="Map">
+    select dist
+    FROM TEMP_TB
+    WHERE bus_id = #{bus_id}
+    </select>
+
+
 
 </mapper>
 

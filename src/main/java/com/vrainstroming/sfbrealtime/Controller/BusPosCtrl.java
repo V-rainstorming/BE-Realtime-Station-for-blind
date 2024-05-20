@@ -24,9 +24,9 @@ public class BusPosCtrl {
 
 
     @CrossOrigin(origins ="*")
-    @GetMapping("/sse")
+    @GetMapping("/getRealtimeBusInfoDemo")
     public SseEmitter streamSse(
-            @RequestParam(value = "uuid") String uuid) {
+            @RequestParam(value = "bus_id") String bus_id) {
 
         SseEmitter emitter = new SseEmitter();
          ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
@@ -34,18 +34,17 @@ public class BusPosCtrl {
         executor.scheduleAtFixedRate(() -> {
             try {
 
-
                 Map dto = new HashMap<>();
-                dto.put("uuid", uuid);
+                dto.put("bus_id", bus_id);
 
-                dto = busPosMapper.getBusPosition(dto);
+                dto = busPosMapper.getTempDemoBusPos(dto);
                 emitter.send(dto.toString());
 
             } catch (IOException e) {
                 emitter.completeWithError(e);
                 executor.shutdown();
             }
-        }, 0, 100, TimeUnit.MILLISECONDS);
+        }, 0, 300, TimeUnit.MILLISECONDS);
 
 
         emitter.onCompletion(executor::shutdown);

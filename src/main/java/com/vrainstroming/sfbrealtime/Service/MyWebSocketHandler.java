@@ -32,7 +32,7 @@ public class MyWebSocketHandler extends TextWebSocketHandler {
 
         try {
         Map<String,Object> dto = objectMapper.readValue(payload,Map.class);
-            busPosMapper.updateBusPosition(dto);
+            busPosMapper.updateTempDemoBusPos(dto);
         }
         catch (Exception e){
             e.printStackTrace();
