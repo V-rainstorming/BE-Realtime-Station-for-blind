@@ -31,7 +31,13 @@ public class BusPosUpdateHandler extends TextWebSocketHandler {
 
         try {
             Map<String,Object> dto = objectMapper.readValue(payload,Map.class);
-            busPosMapper.updateTempDemoBusPos(dto);
+
+            Integer xpos = Integer.parseInt(dto.getOrDefault("x_pos","0").toString());
+            Integer ypos = Integer.parseInt(dto.getOrDefault("y_pos","0").toString());
+            double dist = Math.sqrt(Math.pow(xpos,2) + Math.pow(ypos,2));
+            dto.put("dist",dist);
+
+            busPosMapper.updateBusPosition(dto);
         }
         catch (Exception e){
             e.printStackTrace();
