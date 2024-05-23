@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vrainstroming.sfbrealtime.mapper.UserMapper">
+
+    <update id="updateUserPosition" parameterType="Map">
+
+        UPDATE USER_TB AS UT
+        SET x_pos = #{x_pos} , y_pos = #{y_pos}
+        WHERE UT.id = (select owner_id from UWB_MODULE_TB where uuid=#{uuid})
+    </update>
+
+    <select id="getUserPosition" parameterType="Map" resultType="Map">
+        select UT.x_pos , UT.y_pos
+        from USER_TB AS UT
+                 JOIN UWB_MODULE_TB AS UMT
+                      ON UT.id = UMT.owner_id
+        where UMT.uuid = #{uuid}
+    </select>
+
+
+
+
+
+</mapper>
+
+

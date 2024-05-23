@@ -2,9 +2,11 @@ package com.vrainstroming.sfbrealtime.Service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vrainstroming.sfbrealtime.mapper.BusPosMapper;
+import com.vrainstroming.sfbrealtime.mapper.BusMapper;
+import com.vrainstroming.sfbrealtime.mapper.UwbMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
@@ -17,9 +19,17 @@ import java.util.Map;
 @Slf4j
 public class UWBPosUpdateHandler extends TextWebSocketHandler {
 
+    @Qualifier("busPosImpl")
     @Autowired
-    BusPosMapper busPosMapper;
+    UWBPosService busPosService;
 
+    @Qualifier("userPosImpl")
+    @Autowired
+    UWBPosService userPosService;
+
+    @Qualifier("UWBInfoImpl")
+    @Autowired
+    UwbModuleService uwbModuleService;
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
@@ -29,14 +39,20 @@ public class UWBPosUpdateHandler extends TextWebSocketHandler {
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
-            Map<String,Object> dto = objectMapper.readValue(payload,Map.class);
+            Map dto = objectMapper.readValue(payload,Map.class);
 
-            Integer xpos = Integer.parseInt(dto.getOrDefault("x_pos","0").toString());
-            Integer ypos = Integer.parseInt(dto.getOrDefault("y_pos","0").toString());
-            double dist = Math.sqrt(Math.pow(xpos,2) + Math.pow(ypos,2));
-            dto.put("dist",dist);
+            String uuid = dto.getOrDefault("uuid","").toString();
 
-            busPosMapper.updateBusPosition(dto);
+            String UwbType = uwbModuleService.getUwbType(dto);
+
+            if (UwbType.equals("BUS")){
+                busPosService.updateUWBPos(dto);
+            }
+            else if(UwbType.equals("USER")) {
+                userPosService.updateUWBPos(dto);
+            }
+
+
         }
         catch (Exception e){
             e.printStackTrace();

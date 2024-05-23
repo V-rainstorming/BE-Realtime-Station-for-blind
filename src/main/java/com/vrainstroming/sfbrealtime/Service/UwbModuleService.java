@@ -1,10 +1,14 @@
 package com.vrainstroming.sfbrealtime.Service;
 
+
 import org.springframework.stereotype.Service;
 
-@Service
-public interface BusPosService {
+import java.util.Map;
 
-    int updateBusPos();
+@Service
+public interface UwbModuleService {
+
+    String getUwbType(Map dto);
+
 
 }

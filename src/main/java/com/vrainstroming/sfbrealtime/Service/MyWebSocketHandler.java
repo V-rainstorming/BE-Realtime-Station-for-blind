@@ -1,11 +1,8 @@
 package com.vrainstroming.sfbrealtime.Service;
 
-import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vrainstroming.sfbrealtime.mapper.BusPosMapper;
+import com.vrainstroming.sfbrealtime.mapper.BusMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.json.JSONParser;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -20,7 +17,7 @@ import java.util.Map;
 public class MyWebSocketHandler extends TextWebSocketHandler {
 
     @Autowired
-    BusPosMapper busPosMapper;
+    BusMapper busPosMapper;
 
 
     @Override

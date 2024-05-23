@@ -21,10 +21,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(myWebSocketHandler, "/busPosUpdateDemo").setAllowedOrigins("*");
-        registry.addHandler(uwbPosUpdateHandler, "/busPosUpdate").setAllowedOrigins("*");
-
-
-
+        registry.addHandler(uwbPosUpdateHandler, "/UwbPosUpdate").setAllowedOrigins("*");
 
     }
 }

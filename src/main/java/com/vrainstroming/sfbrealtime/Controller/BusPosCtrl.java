@@ -2,7 +2,7 @@ package com.vrainstroming.sfbrealtime.Controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vrainstroming.sfbrealtime.mapper.BusPosMapper;
+import com.vrainstroming.sfbrealtime.mapper.BusMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ import java.util.concurrent.TimeUnit;
 public class BusPosCtrl {
 
     @Autowired
-    BusPosMapper busPosMapper;
+    BusMapper busPosMapper;
 
     @CrossOrigin(origins ="*")
     @GetMapping("/getRealtimeBusInfoDemo")
