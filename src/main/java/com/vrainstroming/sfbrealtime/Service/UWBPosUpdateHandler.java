@@ -35,11 +35,11 @@ public class UWBPosUpdateHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
         String payload = message.getPayload();
-
         ObjectMapper objectMapper = new ObjectMapper();
 
         try {
             Map dto = objectMapper.readValue(payload,Map.class);
+            System.out.println(dto.toString());
 
             String uuid = dto.getOrDefault("uuid","").toString();
 
