@@ -4,7 +4,6 @@ package com.vrainstroming.sfbrealtime.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vrainstroming.sfbrealtime.mapper.BusPosMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
@@ -16,7 +15,7 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class BusPosUpdateHandler extends TextWebSocketHandler {
+public class UWBPosUpdateHandler extends TextWebSocketHandler {
 
     @Autowired
     BusPosMapper busPosMapper;

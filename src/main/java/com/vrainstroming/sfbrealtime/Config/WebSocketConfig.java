@@ -1,6 +1,6 @@
 package com.vrainstroming.sfbrealtime.Config;
 
-import com.vrainstroming.sfbrealtime.Service.BusPosUpdateHandler;
+import com.vrainstroming.sfbrealtime.Service.UWBPosUpdateHandler;
 import com.vrainstroming.sfbrealtime.Service.MyWebSocketHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
@@ -11,17 +11,17 @@ import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry
 public class WebSocketConfig implements WebSocketConfigurer {
 
     private final MyWebSocketHandler myWebSocketHandler;
-    private final BusPosUpdateHandler busPosUpdateHandler;
+    private final UWBPosUpdateHandler uwbPosUpdateHandler;
 
-    public WebSocketConfig(MyWebSocketHandler myWebSocketHandler,BusPosUpdateHandler busPosUpdateHandler) {
+    public WebSocketConfig(MyWebSocketHandler myWebSocketHandler, UWBPosUpdateHandler uwbPosUpdateHandler) {
         this.myWebSocketHandler = myWebSocketHandler;
-        this.busPosUpdateHandler = busPosUpdateHandler;
+        this.uwbPosUpdateHandler = uwbPosUpdateHandler;
     }
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(myWebSocketHandler, "/busPosUpdateDemo").setAllowedOrigins("*");
-        registry.addHandler(myWebSocketHandler, "/busPosUpdate").setAllowedOrigins("*");
+        registry.addHandler(uwbPosUpdateHandler, "/busPosUpdate").setAllowedOrigins("*");
 
 
 
