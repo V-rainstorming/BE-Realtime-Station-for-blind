@@ -1,6 +1,7 @@
 package com.vrainstroming.sfbrealtime.Controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vrainstroming.sfbrealtime.mapper.BusPosMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +18,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class BusPosCtrl {
 
-
-
     @Autowired
     BusPosMapper busPosMapper;
-
 
     @CrossOrigin(origins ="*")
     @GetMapping("/getRealtimeBusInfoDemo")
@@ -38,7 +36,9 @@ public class BusPosCtrl {
                 dto.put("bus_id", bus_id);
 
                 dto = busPosMapper.getTempDemoBusPos(dto);
-                emitter.send(dto.toString());
+                ObjectMapper objmapper = new ObjectMapper();
+
+                emitter.send(objmapper.writeValueAsString(dto));
 
             } catch (IOException e) {
                 emitter.completeWithError(e);
@@ -53,6 +53,7 @@ public class BusPosCtrl {
 
         return emitter;
     }
+
 
 
 }

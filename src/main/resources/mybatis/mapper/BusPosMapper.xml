@@ -8,7 +8,6 @@
         UPDATE BUS_TB AS BT
         SET x_pos = #{x_pos} , y_pos = #{y_pos}
         WHERE BT.id = (select owner_id from UWB_MODULE_TB where uuid=#{uuid})
-
     </update>
 
     <select id="getBusPosition" parameterType="Map" resultType="Map">
