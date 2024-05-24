@@ -8,9 +8,9 @@
     SELECT TYPE
     FROM UWB_MODULE_TB
     WHERE uuid = #{uuid}
-
-
     </select>
+
+
 
 
 

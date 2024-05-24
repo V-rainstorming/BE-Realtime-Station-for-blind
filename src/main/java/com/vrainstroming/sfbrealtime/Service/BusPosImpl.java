@@ -18,4 +18,9 @@ public class BusPosImpl implements UWBPosService{
     public int updateUWBPos(Map dto) {
         return busPosMapper.updateBusPosition(dto);
     }
+
+    @Override
+    public Map getUwbPos(Map dto) {
+        return busPosMapper.getBusPosition(dto);
+    }
 }

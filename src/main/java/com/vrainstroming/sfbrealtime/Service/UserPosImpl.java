@@ -18,4 +18,9 @@ public class UserPosImpl implements UWBPosService{
         return userMapper.updateUserPosition(dto);
     }
 
+    @Override
+    public Map getUwbPos(Map dto) {
+        return userMapper.getUserPosition(dto);
+    }
+
 }

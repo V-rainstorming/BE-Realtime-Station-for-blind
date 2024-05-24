@@ -39,9 +39,6 @@ public class UWBPosUpdateHandler extends TextWebSocketHandler {
 
         try {
             Map dto = objectMapper.readValue(payload,Map.class);
-            System.out.println(dto.toString());
-
-            String uuid = dto.getOrDefault("uuid","").toString();
 
             String UwbType = uwbModuleService.getUwbType(dto);
 

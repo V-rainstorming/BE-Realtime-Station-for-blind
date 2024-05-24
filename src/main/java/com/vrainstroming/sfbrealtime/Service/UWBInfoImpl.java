@@ -19,4 +19,8 @@ public class UWBInfoImpl implements UwbModuleService{
 
         return retMap.getOrDefault("TYPE","").toString();
     }
+
+
+
+
 }

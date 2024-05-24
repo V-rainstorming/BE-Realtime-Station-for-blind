@@ -8,5 +8,6 @@ import java.util.Map;
 @Service
 public interface UWBPosService {
     int updateUWBPos(Map dto);
+    Map getUwbPos(Map dto);
 
 }
