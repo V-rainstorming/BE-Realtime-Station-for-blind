@@ -2,6 +2,7 @@ package com.vrainstroming.sfbrealtime.Service;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vrainstroming.sfbrealtime.Service.BusRoute.BusRouteImpl;
 import com.vrainstroming.sfbrealtime.mapper.BusMapper;
 import com.vrainstroming.sfbrealtime.mapper.UwbMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,10 @@ public class UWBPosUpdateHandler extends TextWebSocketHandler {
     @Autowired
     UwbModuleService uwbModuleService;
 
+    @Qualifier("busRouteImpl")
+    @Autowired
+    BusRouteImpl busRoute;
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
@@ -44,6 +49,8 @@ public class UWBPosUpdateHandler extends TextWebSocketHandler {
 
             if (UwbType.equals("BUS")){
                 busPosService.updateUWBPos(dto);
+                busRoute.setBusState(dto);
+
             }
             else if(UwbType.equals("USER")) {
                 userPosService.updateUWBPos(dto);

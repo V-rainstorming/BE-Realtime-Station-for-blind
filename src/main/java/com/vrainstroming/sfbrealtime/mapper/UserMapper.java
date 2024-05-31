@@ -10,5 +10,7 @@ public interface UserMapper {
 
     int updateUserPosition(Map map);
     Map getUserPosition(Map map);
+    Map getServiceInfo(Map map);
+    Map getRouteInfoAfterGetOnBus(Map map);
 
 }

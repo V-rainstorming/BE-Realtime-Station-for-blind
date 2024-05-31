@@ -4,7 +4,6 @@
 <mapper namespace="com.vrainstroming.sfbrealtime.mapper.UserMapper">
 
     <update id="updateUserPosition" parameterType="Map">
-
         UPDATE USER_TB AS UT
         SET x_pos = #{x_pos} , y_pos = #{y_pos}
         WHERE UT.id = (select owner_id from UWB_MODULE_TB where uuid=#{uuid})
@@ -17,10 +16,52 @@
                       ON UT.id = UMT.owner_id
         where UMT.uuid = #{uuid}
     </select>
+    
+    <select id="getServiceInfo" parameterType="Map" resultType="Map">
+
+        select  (BRT2.route_seq - BRT.route_seq) * 3  as left_time
+             ,BRT2.route_seq - BRT.route_seq  as left_station
+             ,BRT.route_seq as bus_now_station_id
+             ,BRT2.route_seq as start_station_id
+             ,BRT3.route_seq as dest_station_id
+             ,BT.status as move_rate
+             ,BT.x_pos as bus_x_pos
+             ,BT.y_pos as bus_y_pos
+             ,UT.x_pos as user_x_pos
+             ,UT.y_pos as user_y_pos
+             ,BT.bus_color as bus_color
+        from BUS_TB AS BT
+                 join SERVICE_TB AS ST
+                      on BT.id = ST.bus_id
+                 join USER_TB UT
+                      on UT.id = ST.user_id
+                 join BUS_ROUTE_TB BRT
+                      on BRT.bus_station_id = BT.now_station_no
+                          and ST.bus_id = BRT.route_num
+                 join BUS_ROUTE_TB BRT2
+                      on BRT2.bus_station_id = ST.start_station_id
+                          and ST.bus_id = BRT2.route_num
+                 join BUS_ROUTE_TB BRT3
+                      on BRT3.bus_station_id = ST.dest_station_id
+                          and ST.bus_id = BRT3.route_num
+        where service_id = #{service_id}
+          and BRT.route_num = ST.bus_id;
+
+    </select>
 
 
 
 
+    <select id="getRouteInfoAfterGetOnBus" parameterType="Map" resultType="Map">
+        select * from BUS_STATION_TB
+        where id in (select bus_station_id
+                    from SERVICE_TB AS ST
+                    join BUS_ROUTE_TB AS BRT
+                    on ST.bus_id = BRT.route_num
+                    where service_id = #{service_id}
+                    and (BRT.bus_station_id between ST.start_station_id
+                    and ST.dest_station_id))
+    </select>
 
 </mapper>
 

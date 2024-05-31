@@ -30,6 +30,32 @@
     WHERE bus_id = #{bus_id}
     </select>
 
+    <select id="getAllRoute" parameterType="Map" resultType="Map">
+    select *
+    FROM BUS_STATION_TB;
+    </select>
+
+    <select id="getAllBusList" resultType="Map">
+        select * from BUS_TB;
+    </select>
+
+    <select id="findStation" parameterType="Map" resultType="Map">
+        select *
+        FROM BUS_STATION_TB
+        where station_name = #{station_name};
+    </select>
+
+    <select id="getBusInfo" parameterType="Map" resultType="Map">
+        select *
+        FROM BUS_TB
+        WHERE id = #{route_num}
+    </select>
+
+    <select id="getStatoinNameByid" parameterType="int" resultType="String">
+        SELECT station_name
+        FROM BUS_STATION_TB
+        WHERE id = #{id}
+    </select>
 
 
 </mapper>

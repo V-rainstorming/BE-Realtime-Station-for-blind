@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vrainstroming.sfbrealtime.mapper.BusRouteMapper">
+
+    <select id="getBusPosByBusNo" parameterType="Map" resultType="Map">
+        select BT.x_pos , BT.y_pos , BT.now_station_no , BT.next_station_no , BT.status
+        from BUS_TB AS BT
+        where vehicle_no = #{vehicle_no}
+    </select>
+
+    <select id="getBusRoute" parameterType="Map" resultType="Map">
+        select BST.id as now_station_id
+             , BST.latitude as now_ypos
+             , BST.longitude as now_xpos
+             , BST.station_name as now_station_name
+             ,BST2.id as next_station_id
+             , BST2.latitude as next_ypos
+             , BST2.longitude as next_xpos
+             , BST2.station_name as next_station_name
+             ,BST3.id as step2_station_id
+             , BST3.latitude as step2_ypos
+             , BST3.longitude as step2_xpos
+             , BST3.station_name as step2_station_name
+
+        from BUS_TB as BT
+                 join BUS_ROUTE_TB AS BRT
+                      on BT.id = BRT.route_num
+                          and BT.now_station_no = BRT.bus_station_id
+                          and BT.next_station_no = BRT.next_station_id
+                 join BUS_ROUTE_TB AS BRT2
+                      on BRT.next_course_id = BRT2.id
+                 join BUS_STATION_TB as BST
+                      on BST.id = BRT.bus_station_id
+                 join BUS_STATION_TB as BST2
+                      on BST2.id = BRT.next_station_id
+                 join BUS_STATION_TB as BST3
+                      on BST3.id = BRT2.next_station_id
+
+        where vehicle_no = #{vehicle_no} ;
+    </select>
+
+
+    <select id="getStationPos" parameterType="Map" resultType="Map">
+
+        select longitude,latitude
+        from BUS_STATION_TB AS BST
+                 join BUS_ROUTE_TB AS BRT
+                      ON BST.id = BRT.bus_station_id
+        where BRT.bus_station_id = #{now_station_no}
+          and BRT.next_station_id = #{next_station_id}
+
+    </select>
+
+
+    <select id="getVehicleNoByUUID" parameterType="Map" resultType="Map">
+        select BT.vehicle_no
+        from BUS_TB as BT
+                 join UWB_MODULE_TB as UMT
+                      on BT.id = UMT.owner_id
+        where uuid = #{uuid};
+    </select>
+
+
+    <update id="updateBusNowStation" parameterType="Map">
+        UPDATE BUS_TB
+        SET now_station_no = #{next_station_no}
+          ,next_station_no = #{step2_station_no}
+          ,status = #{status}
+        where vehicle_no = #{vehicle_no};
+
+    </update>
+
+    <update id="updateBusState" parameterType="Map">
+        UPDATE BUS_TB
+        SET status = #{status}
+        where vehicle_no = #{vehicle_no};
+
+    </update>
+
+    <select id="getRouteByBusNum" parameterType="Map" resultType="Map">
+
+    select *
+    from BUS_ROUTE_TB
+    where route_num = #{route_num}
+
+    </select>
+
+    <select id="getStationDist" parameterType="Map" resultType="int">
+        select DEST_SEQ-START_SEQ from
+            (select bus_station_id AS START_SEQ
+             from BUS_ROUTE_TB
+             where route_num = #{route_num} and bus_station_id = #{start_id}) as A
+                join (select bus_station_id AS DEST_SEQ
+                      from BUS_ROUTE_TB
+                      where route_num = #{route_num} and bus_station_id = #{dest_id}) as B
+    </select>
+
+</mapper>
+
+
+
+
