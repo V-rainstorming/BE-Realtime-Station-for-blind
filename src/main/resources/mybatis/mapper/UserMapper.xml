@@ -50,10 +50,8 @@
     </select>
 
 
-
-
     <select id="getRouteInfoAfterGetOnBus" parameterType="Map" resultType="Map">
-        select * from BUS_STATION_TB
+        select * from BUS_STATION_TB BST
         where id in (select bus_station_id
                     from SERVICE_TB AS ST
                     join BUS_ROUTE_TB AS BRT
@@ -62,6 +60,20 @@
                     and (BRT.bus_station_id between ST.start_station_id
                     and ST.dest_station_id))
     </select>
+
+
+    <select id="getWaitingStatus" parameterType="Map" resultType="String">
+        select status
+        from SERVICE_TB
+        where service_id = #{service_id}
+    </select>
+
+
+    <insert id="registerBilndService" parameterType="Map" useGeneratedKeys="true" keyProperty="service_id">
+        INSERT INTO SFB.SERVICE_TB (user_id, bus_id, status, start_station_id, dest_station_id)
+        VALUES (1, #{bus_id}, 'waiting', #{depature_station_id}, #{destination_station_id})
+    </insert>
+
 
 </mapper>
 

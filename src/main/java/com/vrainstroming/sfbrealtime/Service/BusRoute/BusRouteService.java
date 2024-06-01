@@ -17,7 +17,9 @@ public interface BusRouteService {
     List<Map> findBusRoute(Map map);
     Map getDistInfo(Map map);
     Map getWaitingInfo(Map map);
-    Map getOffInfo(Map map);
+    List<Map> getOffInfo(Map map);
+    String getWaitingStatusInfo(Map map);
+    int RegisterService(Map map);
 
 
 

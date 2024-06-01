@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -211,6 +212,9 @@ public class BusRouteImpl implements BusRouteService {
                 busInfo.put("bus_color", bus_color);
                 busInfo.put("depature_station_name", busMapper.getStatoinNameByid(start_id));
                 busInfo.put("destination_station_name", busMapper.getStatoinNameByid(dest_id));
+                busInfo.put("depature_station_id", start_id);
+                busInfo.put("destination_station_id", dest_id);
+
                 busInfo.put("bus_id", busList.get(i).get("id"));
 
 
@@ -224,25 +228,18 @@ public class BusRouteImpl implements BusRouteService {
                 Map leftInfo = getDistInfo(temp);
 
 
-                busInfo.put("left_time", leftInfo.get("left_time")); //TODO: 가져와야함
-                busInfo.put("left_station",leftInfo.get("left_station") ); //TODO: 가져와야함
+                busInfo.put("left_time", leftInfo.get("left_time"));
+                busInfo.put("left_station",leftInfo.get("left_station"));
 
                 if (now_station_no < start_id) {
                     routeList.add(busInfo);
                 }
             }
 
-
         }
 
         return routeList;
     }
-
-
-
-
-
-
 
 
     @Override
@@ -267,11 +264,27 @@ public class BusRouteImpl implements BusRouteService {
     }
 
     @Override
-    public Map getOffInfo(Map map) {
+    public List<Map> getOffInfo(Map map) {
 
-        Map ret = userMapper.getRouteInfoAfterGetOnBus(map);
+        List<Map> ret = userMapper.getRouteInfoAfterGetOnBus(map);
+
         return ret;
     }
+
+    @Override
+    public String getWaitingStatusInfo(Map map) {
+        return userMapper.getWaitingStatus(map);
+    }
+
+    @Override
+    public int RegisterService(Map map) {
+        userMapper.registerBilndService(map);
+        BigInteger t = (BigInteger) map.getOrDefault("service_id",1);
+        return t.intValue();
+    }
+
+
+
 
     @Override
     public Map findDestStation(Map dto) {
