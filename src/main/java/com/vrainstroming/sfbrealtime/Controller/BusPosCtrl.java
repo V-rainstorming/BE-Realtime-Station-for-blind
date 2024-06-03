@@ -2,7 +2,6 @@ package com.vrainstroming.sfbrealtime.Controller;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vrainstroming.sfbrealtime.Service.BusRoute.BusRouteImpl;
 import com.vrainstroming.sfbrealtime.Service.BusRoute.BusRouteService;
 import com.vrainstroming.sfbrealtime.Service.UWBPosService;
 import com.vrainstroming.sfbrealtime.Service.UwbModuleService;
@@ -27,6 +26,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @RestController
 public class BusPosCtrl {
+
+    final int CDist = 30;
 
     @Autowired
     BusMapper busPosMapper;
@@ -131,8 +132,6 @@ public class BusPosCtrl {
         //bus_id depature_station_id destination_station_id
 
 
-
-
         Map ret = new HashMap<>();
         ret.put("status","Y");
         ret.put("Code",200);
@@ -161,53 +160,26 @@ public class BusPosCtrl {
 
                 Map dto = new HashMap<>();
                 dto.put("service_id",service_id);
-                Object ret = null;
-                if(busRoute.getWaitingStatusInfo(dto).equals("waiting")){
-                    ret = busRoute.getWaitingInfo(dto);
+                Map ret = new HashMap<>();
+                String userState = busRoute.getWaitingStatusInfo(dto);
+                if(userState.equals("findStation")){
+                    if(busRoute.getDistWithUserAndStation(dto) < CDist){
+                        busRoute.ServieStatustoWaiting(dto);
+                    }
+                    ret.put("bus_data",busRoute.getWaitingInfo(dto));
+                }
+                else if(userState.equals("waiting")){
+                    ret.put("bus_data",busRoute.getWaitingInfo(dto));
                 }
                 else
                 {
-                    ret = busRoute.getOffInfo(dto);
-                    System.out.println(ret);
+                    ret.put("bus_data",busRoute.getOffInfo(dto));
                 }
-
-
 
                 ////////////////////////////
 
 
-                ObjectMapper objmapper = new ObjectMapper();
-                emitter.send(objmapper.writeValueAsString(ret));
-
-            } catch (IOException e) {
-                emitter.completeWithError(e);
-                executor.shutdown();
-            }
-        }, 0, 300, TimeUnit.MILLISECONDS);
-
-
-        emitter.onCompletion(executor::shutdown);
-        emitter.onTimeout(executor::shutdown);
-        emitter.onError((e) -> executor.shutdown());
-
-        return emitter;
-    }
-
-    @CrossOrigin(origins ="*")
-    @GetMapping("/getOffInfo")
-    public SseEmitter getOffInfoSSE(
-            @RequestParam(value = "service_id") String service_id) {
-
-        SseEmitter emitter = new SseEmitter(3600 * 1000L);
-        ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
-
-        executor.scheduleAtFixedRate(() -> {
-            try {
-
-                Map dto = new HashMap<>();
-                dto.put("service_id",service_id);
-
-                List<Map> ret = busRoute.getOffInfo(dto);
+                ret.put("user_status",userState);
 
                 ObjectMapper objmapper = new ObjectMapper();
                 emitter.send(objmapper.writeValueAsString(ret));
@@ -225,6 +197,40 @@ public class BusPosCtrl {
 
         return emitter;
     }
+
+//
+//    @CrossOrigin(origins ="*")
+//    @GetMapping("/getOffInfo")
+//    public SseEmitter getOffInfoSSE(
+//            @RequestParam(value = "service_id") String service_id) {
+//
+//        SseEmitter emitter = new SseEmitter(3600 * 1000L);
+//        ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
+//
+//        executor.scheduleAtFixedRate(() -> {
+//            try {
+//
+//                Map dto = new HashMap<>();
+//                dto.put("service_id",service_id);
+//
+//                List<Map> ret = busRoute.getOffInfo(dto);
+//
+//                ObjectMapper objmapper = new ObjectMapper();
+//                emitter.send(objmapper.writeValueAsString(ret));
+//
+//            } catch (IOException e) {
+//                emitter.completeWithError(e);
+//                executor.shutdown();
+//            }
+//        }, 0, 300, TimeUnit.MILLISECONDS);
+//
+//
+//        emitter.onCompletion(executor::shutdown);
+//        emitter.onTimeout(executor::shutdown);
+//        emitter.onError((e) -> executor.shutdown());
+//
+//        return emitter;
+//    }
 
 
     @PostMapping("/BlindBusRoute")
@@ -271,7 +277,6 @@ public class BusPosCtrl {
         List<Map> routeList = busRoute.findBusRoute(dto);
         ret.put("data",routeList);
 
-
         return ResponseEntity.ok().body(ret);
     }
 
@@ -286,7 +291,6 @@ public class BusPosCtrl {
             updateInfoMap.put("code",200);
         }
         catch (Exception e){
-            updateInfoMap.put("update_code",busRoute.ServieStatustoOnboard(res));
             updateInfoMap.put("status","N"); // 버스정보
             updateInfoMap.put("code",500);
         }

@@ -18,7 +18,6 @@
     </select>
     
     <select id="getServiceInfo" parameterType="Map" resultType="Map">
-
         select  (BRT2.route_seq - BRT.route_seq) * 3  as left_time
              ,BRT2.route_seq - BRT.route_seq  as left_station
              ,BRT.route_seq as bus_now_station_id
@@ -29,6 +28,9 @@
              ,BT.y_pos as bus_y_pos
              ,UT.x_pos as user_x_pos
              ,UT.y_pos as user_y_pos
+             ,BST.latitude as station_y_pos
+             ,BST.longitude as station_x_pos
+             , SQRT(POW(BST.latitude - UT.y_pos,2) + POW(BST.longitude - UT.x_pos,2)) as user_station_dist
              ,BT.bus_color as bus_color
         from BUS_TB AS BT
                  join SERVICE_TB AS ST
@@ -41,6 +43,8 @@
                  join BUS_ROUTE_TB BRT2
                       on BRT2.bus_station_id = ST.start_station_id
                           and ST.bus_id = BRT2.route_num
+                 join  BUS_STATION_TB BST
+                       on ST.start_station_id = BST.id
                  join BUS_ROUTE_TB BRT3
                       on BRT3.bus_station_id = ST.dest_station_id
                           and ST.bus_id = BRT3.route_num
@@ -71,16 +75,28 @@
 
     <insert id="registerBilndService" parameterType="Map" useGeneratedKeys="true" keyProperty="service_id">
         INSERT INTO SERVICE_TB (user_id, bus_id, status, start_station_id, dest_station_id)
-        VALUES (1, #{bus_id}, 'waiting', #{depature_station_id}, #{destination_station_id})
+        VALUES (1, #{bus_id}, 'findStation', #{depature_station_id}, #{destination_station_id})
     </insert>
 
     <update id="updateServieStatus" parameterType="Map">
 
         UPDATE SERVICE_TB
-        SET status = 'onboard'
+        SET status = #{status}
         where service_id = #{service_id}
 
     </update>
+
+    <select id="getDistWithUserAndStation" resultType="double" parameterType="Map">
+        select
+            SQRT(POW(BST.latitude - UT.y_pos,2) + POW(BST.longitude - UT.x_pos,2))
+        from SERVICE_TB ST
+                 join BUS_STATION_TB BST
+                      on ST.start_station_id = BST.id
+                 join USER_TB UT
+                      on ST.user_id = UT.id
+        where service_id = #{service_id};
+    </select>
+
 
 </mapper>
 

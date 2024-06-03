@@ -16,5 +16,6 @@ public interface UserMapper {
     String getWaitingStatus(Map map);
     int registerBilndService(Map map);
     int updateServieStatus(Map map);
+    double getDistWithUserAndStation(Map map);
 
 }

@@ -1,6 +1,7 @@
 package com.vrainstroming.sfbrealtime.Controller;
 
 
+import com.vrainstroming.sfbrealtime.Service.BusRoute.BusRouteService;
 import com.vrainstroming.sfbrealtime.mapper.TestMapper;
 import com.vrainstroming.sfbrealtime.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +22,15 @@ public class TestCtrl {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    BusRouteService busRoute;
+
     @GetMapping("/test")
     ResponseEntity<?> test(){
 
         Map dto = new HashMap<>();
         dto.put("service_id",1);
-        return ResponseEntity.ok().body(userMapper.getRouteInfoAfterGetOnBus(dto));
+        return ResponseEntity.ok().body(busRoute.getWaitingInfo(dto));
     }
 
 }

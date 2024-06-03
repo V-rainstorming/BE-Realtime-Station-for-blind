@@ -173,7 +173,6 @@ public class BusRouteImpl implements BusRouteService {
 
 
         List<Map> busList = busMapper.getAllBusList();
-
         List<Map> routeList = new ArrayList<>();
 
 
@@ -283,8 +282,21 @@ public class BusRouteImpl implements BusRouteService {
 
     @Override
     public int ServieStatustoOnboard(Map map) {
+        map.put("status","onBoard");
         int ret = userMapper.updateServieStatus(map);
         return ret;
+    }
+
+    @Override
+    public int ServieStatustoWaiting(Map map) {
+        map.put("status","waiting");
+        int ret = userMapper.updateServieStatus(map);
+        return ret;
+    }
+
+    @Override
+    public double getDistWithUserAndStation(Map map) {
+        return userMapper.getDistWithUserAndStation(map);
     }
 
 

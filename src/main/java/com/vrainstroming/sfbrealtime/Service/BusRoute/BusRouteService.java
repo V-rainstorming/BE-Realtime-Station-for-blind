@@ -21,6 +21,9 @@ public interface BusRouteService {
     String getWaitingStatusInfo(Map map);
     int RegisterService(Map map);
     int ServieStatustoOnboard(Map map);
+    int ServieStatustoWaiting(Map map);
+
+    double getDistWithUserAndStation(Map map);
 
 
 
