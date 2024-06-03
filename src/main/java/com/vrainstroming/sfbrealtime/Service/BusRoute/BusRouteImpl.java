@@ -152,7 +152,7 @@ public class BusRouteImpl implements BusRouteService {
             double temp_y = (double) allStationList.get(i).get("latitude");
             double temp_x = (double) allStationList.get(i).get("longitude");
             double user_station_dist = Math.sqrt(Math.pow(temp_y - user_y, 2) + Math.pow(temp_x - user_x, 2));
-            log.info("버스장번호 {} 거리 {}",i,user_station_dist);
+            log.info("버스장번호 {} 거리 {}", i, user_station_dist);
             if (min_dist > user_station_dist) {
                 min_dist = user_station_dist;
                 candidate_bus_stop_id = i;
@@ -191,7 +191,7 @@ public class BusRouteImpl implements BusRouteService {
             for (int j = 0; j < tempRoute.size(); j++) {
 
                 int route_st_id = (int) tempRoute.get(j).get("bus_station_id");
-                log.info("bus_id {} route_st_id {} start_id {} dest_id {}",busList.get(i).get("id"),route_st_id,start_id,dest_id);
+                log.info("bus_id {} route_st_id {} start_id {} dest_id {}", busList.get(i).get("id"), route_st_id, start_id, dest_id);
 
                 if (!isIncludeStart)
                     isIncludeStart = route_st_id == start_id;
@@ -218,10 +218,8 @@ public class BusRouteImpl implements BusRouteService {
                 busInfo.put("bus_id", busList.get(i).get("id"));
 
 
-
-                temp.put("start_id",start_id);
-                temp.put("dest_id",dest_id);
-
+                temp.put("start_id", start_id);
+                temp.put("dest_id", dest_id);
 
 
                 System.out.println(temp.toString());
@@ -229,7 +227,7 @@ public class BusRouteImpl implements BusRouteService {
 
 
                 busInfo.put("left_time", leftInfo.get("left_time"));
-                busInfo.put("left_station",leftInfo.get("left_station"));
+                busInfo.put("left_station", leftInfo.get("left_station"));
 
                 if (now_station_no < start_id) {
                     routeList.add(busInfo);
@@ -251,8 +249,8 @@ public class BusRouteImpl implements BusRouteService {
         Map ret = new HashMap<>();
         int dist = busRouteMapper.getStationDist(map);
         System.out.println(dist);
-        ret.put("left_station",dist);
-        ret.put("left_time",dist * 3);
+        ret.put("left_station", dist);
+        ret.put("left_time", dist * 3);
 
         return ret;
     }
@@ -279,16 +277,20 @@ public class BusRouteImpl implements BusRouteService {
     @Override
     public int RegisterService(Map map) {
         userMapper.registerBilndService(map);
-        BigInteger t = (BigInteger) map.getOrDefault("service_id",1);
+        BigInteger t = (BigInteger) map.getOrDefault("service_id", 1);
         return t.intValue();
     }
 
-
+    @Override
+    public int ServieStatustoOnboard(Map map) {
+        int ret = userMapper.updateServieStatus(map);
+        return ret;
+    }
 
 
     @Override
     public Map findDestStation(Map dto) {
-
+        dto = busMapper.findStationByName(dto);
         Map ret = busMapper.findStation(dto);
 
         return ret;

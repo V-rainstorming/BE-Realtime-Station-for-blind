@@ -39,10 +39,16 @@
         select * from BUS_TB;
     </select>
 
+    <select id="findStationByName" parameterType="Map" resultType="Map">
+        select bus_station_id
+        FROM BUS_STATION_SEARCH_TABLE
+        where bus_station_name = #{station_name};
+    </select>
+
     <select id="findStation" parameterType="Map" resultType="Map">
         select *
         FROM BUS_STATION_TB
-        where station_name = #{station_name};
+        where id = #{bus_station_id};
     </select>
 
     <select id="getBusInfo" parameterType="Map" resultType="Map">

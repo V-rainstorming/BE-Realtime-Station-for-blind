@@ -20,6 +20,7 @@ public interface BusRouteService {
     List<Map> getOffInfo(Map map);
     String getWaitingStatusInfo(Map map);
     int RegisterService(Map map);
+    int ServieStatustoOnboard(Map map);
 
 
 

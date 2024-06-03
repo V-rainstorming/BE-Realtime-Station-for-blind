@@ -13,6 +13,7 @@ public interface BusMapper {
     Map getTempDemoBusPos(Map map);
     List<Map> getAllRoute(Map map);
     Map findStation(Map map);
+    Map findStationByName(Map map);
     List<Map> getAllBusList();
     Map getBusInfo(Map map);
     String getStatoinNameByid(int id);

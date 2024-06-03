@@ -275,6 +275,24 @@ public class BusPosCtrl {
         return ResponseEntity.ok().body(ret);
     }
 
+    @PostMapping("/onboardPassenger")
+    public ResponseEntity<?> onboardPassenger(@RequestBody Map res){
+
+        Map updateInfoMap = new HashMap<>();
+
+        try {
+            updateInfoMap.put("update_code",busRoute.ServieStatustoOnboard(res));
+            updateInfoMap.put("status","Y"); // 버스정보
+            updateInfoMap.put("code",200);
+        }
+        catch (Exception e){
+            updateInfoMap.put("update_code",busRoute.ServieStatustoOnboard(res));
+            updateInfoMap.put("status","N"); // 버스정보
+            updateInfoMap.put("code",500);
+        }
+
+        return  ResponseEntity.ok().body(updateInfoMap);
+    }
 
 
 }

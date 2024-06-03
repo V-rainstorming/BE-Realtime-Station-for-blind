@@ -70,10 +70,17 @@
 
 
     <insert id="registerBilndService" parameterType="Map" useGeneratedKeys="true" keyProperty="service_id">
-        INSERT INTO SFB.SERVICE_TB (user_id, bus_id, status, start_station_id, dest_station_id)
+        INSERT INTO SERVICE_TB (user_id, bus_id, status, start_station_id, dest_station_id)
         VALUES (1, #{bus_id}, 'waiting', #{depature_station_id}, #{destination_station_id})
     </insert>
 
+    <update id="updateServieStatus" parameterType="Map">
+
+        UPDATE SERVICE_TB
+        SET status = 'onboard'
+        where service_id = #{service_id}
+
+    </update>
 
 </mapper>
 

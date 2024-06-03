@@ -15,5 +15,6 @@ public interface UserMapper {
     List<Map> getRouteInfoAfterGetOnBus(Map map);
     String getWaitingStatus(Map map);
     int registerBilndService(Map map);
+    int updateServieStatus(Map map);
 
 }
