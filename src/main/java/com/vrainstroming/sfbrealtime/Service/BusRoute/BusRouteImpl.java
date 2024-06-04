@@ -81,7 +81,6 @@ public class BusRouteImpl implements BusRouteService {
         if (now_xpos == next_xpos) { // 수직선인 경우
             xIntersect = now_xpos; // x 좌표는 수직선의 x 값과 동일
             yIntersect = y_pos; // 수평선이므로 y 좌표는 세 번째 점의 y 값
-            System.out.println(y_pos);
         } else if (now_ypos == next_ypos) { // 수평선인 경우
             yIntersect = now_ypos; // y 좌표는 수평선의 y 값과 동일
             xIntersect = x_pos; // 수직선이므로 x 좌표는 세 번째 점의 x 값
@@ -216,7 +215,6 @@ public class BusRouteImpl implements BusRouteService {
                 temp.put("dest_id", dest_id);
 
 
-                System.out.println(temp.toString());
                 Map leftInfo = getDistInfo(temp);
 
 
@@ -242,7 +240,6 @@ public class BusRouteImpl implements BusRouteService {
 
         Map ret = new HashMap<>();
         int dist = busRouteMapper.getStationDist(map);
-        System.out.println(dist);
         ret.put("left_station", dist);
         ret.put("left_time", dist * 3);
 

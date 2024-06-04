@@ -8,6 +8,7 @@ import java.util.Map;
 @Mapper
 public interface BusRouteMapper {
     Map getBusPosByBusNo(Map map);
+
     Map getBusRoute(Map map);
 
     int updateBusNowStation(Map dto);
@@ -17,7 +18,10 @@ public interface BusRouteMapper {
     Map getVehicleNoByUUID(Map dto);
 
     void updateBusState(Map dto);
+
     List<Map> getRouteByBusNum(Map dto);
+
     int getStationDist(Map dto);
+
     List<Map> getBusRouteByBusId(Map dto);
 }
