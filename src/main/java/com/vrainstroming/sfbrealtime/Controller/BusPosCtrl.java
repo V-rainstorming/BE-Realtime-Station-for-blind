@@ -140,7 +140,7 @@ public class BusPosCtrl {
 
         Map ret = new HashMap<>();
         ret.put("status","Y");
-        ret.put("Code",200);
+        ret.put("code",200);
 
        int t = busRoute.RegisterService(map);
 
