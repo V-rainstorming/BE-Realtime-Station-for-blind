@@ -96,6 +96,31 @@
                       where route_num = #{route_num} and bus_station_id = #{dest_id}) as B
     </select>
 
+
+    <select id="getBusRouteByBusId" parameterType="Map" resultType="Map">
+        select bus_station_id as id
+             , station_name as station_name
+        from BUS_STATION_TB BST
+                 join (select bus_station_id
+                       from BUS_ROUTE_TB
+                       where route_num = 1
+                         and route_seq between
+                               (select route_num
+                                from BUS_TB BT
+                                         join BUS_ROUTE_TB BRT
+                                              on BRT.bus_station_id = BT.now_station_no
+                                                  and BRT.route_num = BT.id
+                                where BT.id = #{bus_id}) - 3
+                           and
+                               (select route_num
+                                from BUS_TB BT
+                                         join BUS_ROUTE_TB BRT
+                                              on BRT.bus_station_id = BT.now_station_no
+                                                  and BRT.route_num = BT.id
+                                where BT.id = #{bus_id}) + 3) B
+                      on BST.id = B.bus_station_id;
+    </select>
+
 </mapper>
 
 

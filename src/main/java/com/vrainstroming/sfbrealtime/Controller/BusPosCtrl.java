@@ -67,6 +67,8 @@ public class BusPosCtrl {
                 dto.put("bus_id", bus_id);
 
                 dto = busPosMapper.getTempDemoBusPos(dto);
+
+                log.info("/getRealtimeBusInfoDemo RES DATA : {}",dto);
                 ObjectMapper objmapper = new ObjectMapper();
 
                 emitter.send(objmapper.writeValueAsString(dto));
@@ -109,6 +111,10 @@ public class BusPosCtrl {
                    dto =  userPosService.getUwbPos(dto);
                 }
 
+
+                log.info("/getRealtimeUWBPOS RES DATA : {}",dto);
+
+
                 ObjectMapper objmapper = new ObjectMapper();
                 emitter.send(objmapper.writeValueAsString(dto));
 
@@ -139,6 +145,8 @@ public class BusPosCtrl {
        int t = busRoute.RegisterService(map);
 
        ret.put("service_id",t);
+
+        log.info("/RegisterService RES DATA : {}",ret);
 
 
 
@@ -180,6 +188,9 @@ public class BusPosCtrl {
 
 
                 ret.put("user_status",userState);
+
+                log.info("/MobileBusBlindControl RES DATA : {}",ret);
+
 
                 ObjectMapper objmapper = new ObjectMapper();
                 emitter.send(objmapper.writeValueAsString(ret));
@@ -258,7 +269,6 @@ public class BusPosCtrl {
         Map nearst_bs_info = busRoute.getNearestBusStation(dto);
 
 
-        log.info("가까운 정류장 정보 {} 도착지 정류장 정보 {}",nearst_bs_info,dest_bs_info);
 
 
         if(dest_bs_info == null){
@@ -276,6 +286,11 @@ public class BusPosCtrl {
 
         List<Map> routeList = busRoute.findBusRoute(dto);
         ret.put("data",routeList);
+
+
+        log.info("/BlindBusRoute RES DATA : {}",ret);
+
+
 
         return ResponseEntity.ok().body(ret);
     }
@@ -295,7 +310,47 @@ public class BusPosCtrl {
             updateInfoMap.put("code",500);
         }
 
+        log.info("/onboardPassenger RES DATA : {}",updateInfoMap);
+
+
         return  ResponseEntity.ok().body(updateInfoMap);
+    }
+
+
+        @CrossOrigin(origins ="*")
+    @GetMapping("/busDeviceInfo")
+    public SseEmitter getOffInfoSSE(
+            @RequestParam(value = "bus_id") String bus_id) {
+
+        SseEmitter emitter = new SseEmitter(3600 * 1000L);
+        ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
+
+        executor.scheduleAtFixedRate(() -> {
+            try {
+
+                Map dto = new HashMap<>();
+                dto.put("bus_id",bus_id);
+
+                Map ret = busRoute.getBusDeviceInfo(dto);
+
+                log.info("/busDeviceInfo RES DATA : {}",ret);
+
+
+                ObjectMapper objmapper = new ObjectMapper();
+                emitter.send(objmapper.writeValueAsString(ret));
+
+            } catch (IOException e) {
+                emitter.completeWithError(e);
+                executor.shutdown();
+            }
+        }, 0, 300, TimeUnit.MILLISECONDS);
+
+
+        emitter.onCompletion(executor::shutdown);
+        emitter.onTimeout(executor::shutdown);
+        emitter.onError((e) -> executor.shutdown());
+
+        return emitter;
     }
 
 

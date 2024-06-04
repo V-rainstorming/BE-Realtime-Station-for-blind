@@ -22,8 +22,10 @@ public interface BusRouteService {
     int RegisterService(Map map);
     int ServieStatustoOnboard(Map map);
     int ServieStatustoWaiting(Map map);
-
     double getDistWithUserAndStation(Map map);
+    Map getBusDeviceInfo(Map map);
+
+
 
 
 

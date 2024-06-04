@@ -98,7 +98,6 @@ public class BusRouteImpl implements BusRouteService {
             yIntersect = m1 * xIntersect + b1;
         }
 
-        log.info("정류장1 좌표 {} {} 정류장2 좌표 {}{} 교차점 좌표{}{}", now_xpos, now_ypos, next_xpos, next_ypos, xIntersect, yIntersect);
 
 
         double distBothStation = Math.sqrt(Math.pow(next_ypos - now_ypos, 2) + Math.pow(next_xpos - now_xpos, 2));
@@ -108,7 +107,6 @@ public class BusRouteImpl implements BusRouteService {
         portion = Math.min(portion, 100);
         portion = Math.max(portion, 0);
 
-        log.info("교차점 {} {} 전체길이 {} 이동길이 {} 비율 {}", xIntersect, yIntersect, distBothStation, distWithBusAndStation, portion);
 
 
         dto.put("status", portion);
@@ -117,7 +115,6 @@ public class BusRouteImpl implements BusRouteService {
         dto.put("step2_station_no", step2_station_no);
 
 
-        log.info("dto :{}", dto);
         if (portion >= 95) {
             busRouteMapper.updateBusNowStation(dto);
         } else {
@@ -152,7 +149,6 @@ public class BusRouteImpl implements BusRouteService {
             double temp_y = (double) allStationList.get(i).get("latitude");
             double temp_x = (double) allStationList.get(i).get("longitude");
             double user_station_dist = Math.sqrt(Math.pow(temp_y - user_y, 2) + Math.pow(temp_x - user_x, 2));
-            log.info("버스장번호 {} 거리 {}", i, user_station_dist);
             if (min_dist > user_station_dist) {
                 min_dist = user_station_dist;
                 candidate_bus_stop_id = i;
@@ -190,7 +186,6 @@ public class BusRouteImpl implements BusRouteService {
             for (int j = 0; j < tempRoute.size(); j++) {
 
                 int route_st_id = (int) tempRoute.get(j).get("bus_station_id");
-                log.info("bus_id {} route_st_id {} start_id {} dest_id {}", busList.get(i).get("id"), route_st_id, start_id, dest_id);
 
                 if (!isIncludeStart)
                     isIncludeStart = route_st_id == start_id;
@@ -297,6 +292,20 @@ public class BusRouteImpl implements BusRouteService {
     @Override
     public double getDistWithUserAndStation(Map map) {
         return userMapper.getDistWithUserAndStation(map);
+    }
+
+    @Override
+    public Map getBusDeviceInfo(Map map) { //map : 1 or 2
+
+
+        Map retMap = new HashMap<>();
+        List<Map> routeList = busRouteMapper.getBusRouteByBusId(map);
+
+        retMap.put("route_list",routeList);
+        retMap.put("now_station_id",routeList);
+
+
+        return retMap;
     }
 
 
