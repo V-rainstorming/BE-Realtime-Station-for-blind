@@ -57,12 +57,14 @@
     <select id="getRouteInfoAfterGetOnBus" parameterType="Map" resultType="Map">
         select * from BUS_STATION_TB BST
         where id in (select bus_station_id
-                    from SERVICE_TB AS ST
-                    join BUS_ROUTE_TB AS BRT
-                    on ST.bus_id = BRT.route_num
-                    where service_id = #{service_id}
-                    and (BRT.bus_station_id between ST.start_station_id
-                    and ST.dest_station_id))
+                     from SERVICE_TB AS ST
+                              join BUS_ROUTE_TB AS BRT
+                                   on ST.bus_id = BRT.route_num
+                              join BUS_TB BT
+                                   on BT.id = ST.bus_id
+                     where service_id = #{service_id}
+                       and (BRT.bus_station_id between GREATEST(BT.now_station_no,ST.start_station_id)
+                         and ST.dest_station_id))
     </select>
 
 
