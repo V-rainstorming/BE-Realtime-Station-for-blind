@@ -298,10 +298,10 @@ public class BusRouteImpl implements BusRouteService {
         Map retMap = new HashMap<>();
         List<Map> routeList = busRouteMapper.getBusRouteByBusId(map);
         Map nowBusPos = busRouteMapper.getNowBusStationByBusId(map);
-        Double DistWithUserAndBus = userMapper.getDistWithUserAndBus(map);
+        Map DistWithUserAndBus = userMapper.getDistWithUserAndBus(map);
 
-        nowBusPos.put("user_bus_dist",DistWithUserAndBus);
-
+        nowBusPos.put("user_bus_dist",DistWithUserAndBus.get("dist"));
+        nowBusPos.put("is_user_infront",DistWithUserAndBus.get("is_user_infront"));
         retMap.put("route_list",routeList);
         retMap.put("bus_pos_info",nowBusPos);
 

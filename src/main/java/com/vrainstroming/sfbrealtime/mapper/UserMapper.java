@@ -17,6 +17,6 @@ public interface UserMapper {
     int registerBilndService(Map map);
     int updateServieStatus(Map map);
     double getDistWithUserAndStation(Map map);
-    Double getDistWithUserAndBus(Map map);
+    Map getDistWithUserAndBus(Map map);
 
 }
