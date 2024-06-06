@@ -97,6 +97,14 @@
         where service_id = #{service_id};
     </select>
 
+    <select id="getDistWithUserAndBus" resultType="double" parameterType="Map">
+        select
+            SQRT(POW(BT.y_pos - UT.y_pos,2) + POW(BT.y_pos - UT.x_pos,2)) as dist
+        from BUS_TB BT
+                 join USER_TB UT
+        where BT.id = #{bus_id};
+    </select>
+
 
 </mapper>
 

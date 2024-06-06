@@ -24,4 +24,6 @@ public interface BusRouteMapper {
     int getStationDist(Map dto);
 
     List<Map> getBusRouteByBusId(Map dto);
+
+    Map getNowBusStationByBusId(Map dto);
 }

@@ -297,9 +297,13 @@ public class BusRouteImpl implements BusRouteService {
 
         Map retMap = new HashMap<>();
         List<Map> routeList = busRouteMapper.getBusRouteByBusId(map);
+        Map nowBusPos = busRouteMapper.getNowBusStationByBusId(map);
+        Double DistWithUserAndBus = userMapper.getDistWithUserAndBus(map);
+
+        nowBusPos.put("user_bus_dist",DistWithUserAndBus);
 
         retMap.put("route_list",routeList);
-        retMap.put("now_station_id",routeList);
+        retMap.put("bus_pos_info",nowBusPos);
 
 
         return retMap;

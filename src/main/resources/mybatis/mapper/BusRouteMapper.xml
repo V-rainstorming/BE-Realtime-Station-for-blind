@@ -103,22 +103,29 @@
         from BUS_STATION_TB BST
                  join (select bus_station_id
                        from BUS_ROUTE_TB
-                       where route_num = 1
+                       where route_num = #{bus_id}
                          and route_seq between
-                               (select route_num
+                               (select BRT.route_seq
                                 from BUS_TB BT
                                          join BUS_ROUTE_TB BRT
                                               on BRT.bus_station_id = BT.now_station_no
                                                   and BRT.route_num = BT.id
-                                where BT.id = #{bus_id}) - 3
+                                where BT.id = #{bus_id}) - 2
                            and
-                               (select route_num
+                               (select BRT.route_seq
                                 from BUS_TB BT
                                          join BUS_ROUTE_TB BRT
                                               on BRT.bus_station_id = BT.now_station_no
                                                   and BRT.route_num = BT.id
-                                where BT.id = #{bus_id}) + 3) B
+                                where BT.id = #{bus_id}) + 2) B
                       on BST.id = B.bus_station_id;
+    </select>
+
+    <select id="getNowBusStationByBusId" parameterType="Map" resultType="Map">
+        select now_station_no
+             ,next_station_no
+        from BUS_TB
+        where id = #{bus_id};
     </select>
 
 </mapper>
