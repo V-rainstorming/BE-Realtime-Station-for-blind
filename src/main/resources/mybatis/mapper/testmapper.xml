@@ -5,8 +5,12 @@
 
     <select id="test" resultType="Map" >
 
-        select *
-        from USER_TB;
+        select BT.bus_no as name,
+               BT.x_pos
+                , BT.y_pos
+        from BUS_TB BT
+        UNION select UT.user_name as name, UT.x_pos, UT.y_pos
+        from USER_TB UT;
 
     </select>
 

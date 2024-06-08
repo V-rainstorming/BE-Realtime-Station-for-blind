@@ -10,6 +10,7 @@ import com.vrainstroming.sfbrealtime.mapper.BusRouteMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +28,8 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class BusPosCtrl {
 
-    final int CDist = 30;
+
+    final int CDist = 10;
 
     @Autowired
     BusMapper busPosMapper;
@@ -111,7 +113,6 @@ public class BusPosCtrl {
                    dto =  userPosService.getUwbPos(dto);
                 }
 
-
                 log.info("/getRealtimeUWBPOS RES DATA : {}",dto);
 
 
@@ -159,6 +160,7 @@ public class BusPosCtrl {
     @GetMapping("/MobileBusBlindControl")
     public SseEmitter getBusNowRoute(
             @RequestParam(value = "service_id") String service_id) {
+
 
         SseEmitter emitter = new SseEmitter(3600 * 1000L);
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);

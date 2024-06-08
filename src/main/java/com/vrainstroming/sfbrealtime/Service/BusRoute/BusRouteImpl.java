@@ -17,6 +17,8 @@ import java.util.Map;
 @Service
 public class BusRouteImpl implements BusRouteService {
 
+
+
     static final int update_portion = 90;
 
     @Autowired

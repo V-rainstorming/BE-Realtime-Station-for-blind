@@ -6,6 +6,7 @@ import com.vrainstroming.sfbrealtime.mapper.TestMapper;
 import com.vrainstroming.sfbrealtime.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,12 +26,11 @@ public class TestCtrl {
     @Autowired
     BusRouteService busRoute;
 
+    @CrossOrigin(origins ="*")
     @GetMapping("/test")
     ResponseEntity<?> test(){
 
-        Map dto = new HashMap<>();
-        dto.put("service_id",1);
-        return ResponseEntity.ok().body(busRoute.getWaitingInfo(dto));
+        return ResponseEntity.ok().body(testMapper.test());
     }
 
 }

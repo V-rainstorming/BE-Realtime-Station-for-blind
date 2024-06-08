@@ -18,5 +18,11 @@ spring:
     password: msl1234~
     mapper-locations: classpath:/mybatis/mapper/**/*.xml
 
+  data:
+    userdetect: 10
+
 server:
   port: 8900
+
+
+
