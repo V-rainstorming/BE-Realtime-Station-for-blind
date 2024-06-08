@@ -28,8 +28,10 @@ import java.util.concurrent.TimeUnit;
 @RestController
 public class BusPosCtrl {
 
+    @Value("${spring.checkData.userDetect}")
+    static String userDist;
 
-    final int CDist = 10;
+    final int CDist = 20;
 
     @Autowired
     BusMapper busPosMapper;
@@ -58,6 +60,7 @@ public class BusPosCtrl {
     @GetMapping("/getRealtimeBusInfoDemo")
     public SseEmitter streamSse(
             @RequestParam(value = "bus_id") String bus_id) {
+
 
         SseEmitter emitter = new SseEmitter(3600 * 1000L);
          ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
@@ -161,6 +164,7 @@ public class BusPosCtrl {
     public SseEmitter getBusNowRoute(
             @RequestParam(value = "service_id") String service_id) {
 
+        System.out.println(userDist);
 
         SseEmitter emitter = new SseEmitter(3600 * 1000L);
         ScheduledExecutorService executor = Executors.newScheduledThreadPool(10);
