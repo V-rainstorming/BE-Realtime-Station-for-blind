@@ -5,6 +5,7 @@ import com.vrainstroming.sfbrealtime.mapper.BusRouteMapper;
 import com.vrainstroming.sfbrealtime.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
@@ -20,6 +21,8 @@ public class BusRouteImpl implements BusRouteService {
 
 
     static final int update_portion = 90;
+
+    int Cdist = 25;
 
     @Autowired
     BusRouteMapper busRouteMapper;
@@ -104,6 +107,10 @@ public class BusRouteImpl implements BusRouteService {
         double distBothStation = Math.sqrt(Math.pow(next_ypos - now_ypos, 2) + Math.pow(next_xpos - now_xpos, 2));
         double distWithBusAndStation = Math.sqrt(Math.pow(yIntersect - now_ypos, 2) + Math.pow(xIntersect - now_xpos, 2));
         int portion = (int) ((distWithBusAndStation / distBothStation) * 100);
+        double dist =  Math.sqrt(Math.pow(next_ypos - y_pos , 2) + Math.pow(next_xpos - x_pos, 2));
+
+
+
 
         portion = Math.min(portion, 100);
         portion = Math.max(portion, 0);
@@ -116,7 +123,7 @@ public class BusRouteImpl implements BusRouteService {
         dto.put("step2_station_no", step2_station_no);
 
 
-        if (portion >= 95) {
+        if (dist < Cdist) {
             busRouteMapper.updateBusNowStation(dto);
         } else {
             busRouteMapper.updateBusState(dto);
