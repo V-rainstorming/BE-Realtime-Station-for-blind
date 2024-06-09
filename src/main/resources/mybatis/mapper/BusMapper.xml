@@ -63,7 +63,18 @@
         WHERE id = #{id}
     </select>
 
+    <select id="getBlindPassengerInfo" parameterType="Map" resultType="Map">
 
+        select
+            service_id as service_id
+             , start_station_id as user_onboard_station_id
+             , dest_station_id as user_destination_station_id
+        from SERVICE_TB
+        where bus_id = #{bus_id}
+        and status = 'waiting' or 'onBoard'
+        order by service_id desc limit 1;
+
+    </select>
 
 
 </mapper>

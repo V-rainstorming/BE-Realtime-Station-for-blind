@@ -17,4 +17,5 @@ public interface BusMapper {
     List<Map> getAllBusList();
     Map getBusInfo(Map map);
     String getStatoinNameByid(int id);
+    Map getBlindPassengerInfo(Map map);
 }
