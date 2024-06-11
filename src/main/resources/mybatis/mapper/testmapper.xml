@@ -11,8 +11,19 @@
         from BUS_TB BT
         UNION select UT.user_name as name, UT.x_pos, UT.y_pos
         from USER_TB UT;
-
     </select>
+
+    <select id="getAzimuth" resultType="Map">
+        select *
+        from AZIMUTH_TB
+        where id = 1
+    </select>
+
+    <update id="setAzimuth" parameterType="Map" >
+        UPDATE AZIMUTH_TB
+        SET azimuth = #{azimuth}
+        where id =1;
+    </update>
 
 
 </mapper>

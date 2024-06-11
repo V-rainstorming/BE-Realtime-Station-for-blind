@@ -123,6 +123,7 @@ public class BusRouteImpl implements BusRouteService {
         dto.put("step2_station_no", step2_station_no);
 
 
+
         if (dist < Cdist) {
             busRouteMapper.updateBusNowStation(dto);
         } else {

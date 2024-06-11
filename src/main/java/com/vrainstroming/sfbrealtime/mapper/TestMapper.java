@@ -9,5 +9,7 @@ import java.util.Map;
 public interface TestMapper {
 
     List<Map> test();
+    Map getAzimuth();
+    int setAzimuth(Map dto);
 
 }
