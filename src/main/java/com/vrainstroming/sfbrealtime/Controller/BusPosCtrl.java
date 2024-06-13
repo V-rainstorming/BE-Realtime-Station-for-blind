@@ -31,7 +31,7 @@ public class BusPosCtrl {
     @Value("${spring.checkData.userDetect}")
     static String userDist;
 
-    final int CDist = 20;
+    final int CDist = 100;
 
     @Autowired
     BusMapper busPosMapper;
