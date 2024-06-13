@@ -24,7 +24,6 @@ public class TestCtrl {
     @Autowired
     BusRouteService busRoute;
 
-    @CrossOrigin(origins ="*")
     @GetMapping("/test")
     public ResponseEntity<?> test(){
         return ResponseEntity.ok().body(testMapper.test());
@@ -52,7 +51,6 @@ public class TestCtrl {
     }
 
 
-    @CrossOrigin(origins ="*")
     @GetMapping("/azimuth")
     public ResponseEntity<?> getAzimuth(){
         return ResponseEntity.ok().body(testMapper.getAzimuth());

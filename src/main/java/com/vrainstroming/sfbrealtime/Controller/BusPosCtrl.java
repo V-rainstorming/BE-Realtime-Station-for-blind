@@ -56,7 +56,6 @@ public class BusPosCtrl {
     @Autowired
     BusRouteService busRoute;
 
-    @CrossOrigin(origins ="*")
     @GetMapping("/getRealtimeBusInfoDemo")
     public SseEmitter streamSse(
             @RequestParam(value = "bus_id") String bus_id) {
@@ -93,7 +92,6 @@ public class BusPosCtrl {
     }
 
 
-    @CrossOrigin(origins ="*")
     @GetMapping("/getRealtimeUWBPOS")
     public SseEmitter streamUWBPOS(
             @RequestParam(value = "uuid") String uuid) {
@@ -136,7 +134,6 @@ public class BusPosCtrl {
         return emitter;
     }
 
-    @CrossOrigin(origins ="*")
     @PostMapping("/RegisterService")
     public ResponseEntity<?> RegisterService(@RequestBody Map map){
         //bus_id depature_station_id destination_station_id
@@ -159,7 +156,6 @@ public class BusPosCtrl {
     }
 
 
-    @CrossOrigin(origins ="*")
     @GetMapping("/MobileBusBlindControl")
     public SseEmitter getBusNowRoute(
             @RequestParam(value = "service_id") String service_id) {
@@ -250,7 +246,6 @@ public class BusPosCtrl {
 //    }
 
 
-    @CrossOrigin(origins ="*")
     @PostMapping("/BlindBusRoute")
     ResponseEntity<?> BlindBusRoute(@RequestBody Map map){ // uuid , station_name
 
@@ -302,7 +297,6 @@ public class BusPosCtrl {
         return ResponseEntity.ok().body(ret);
     }
 
-    @CrossOrigin(origins ="*")
     @PostMapping("/onboardPassenger")
     public ResponseEntity<?> onboardPassenger(@RequestBody Map res){
 
@@ -325,7 +319,6 @@ public class BusPosCtrl {
     }
 
 
-    @CrossOrigin(origins ="*")
     @GetMapping("/busDeviceInfo")
     public SseEmitter getOffInfoSSE(
             @RequestParam(value = "bus_id") String bus_id) {
