@@ -250,6 +250,7 @@ public class BusPosCtrl {
 //    }
 
 
+    @CrossOrigin(origins ="*")
     @PostMapping("/BlindBusRoute")
     ResponseEntity<?> BlindBusRoute(@RequestBody Map map){ // uuid , station_name
 
@@ -301,6 +302,7 @@ public class BusPosCtrl {
         return ResponseEntity.ok().body(ret);
     }
 
+    @CrossOrigin(origins ="*")
     @PostMapping("/onboardPassenger")
     public ResponseEntity<?> onboardPassenger(@RequestBody Map res){
 
@@ -323,7 +325,7 @@ public class BusPosCtrl {
     }
 
 
-        @CrossOrigin(origins ="*")
+    @CrossOrigin(origins ="*")
     @GetMapping("/busDeviceInfo")
     public SseEmitter getOffInfoSSE(
             @RequestParam(value = "bus_id") String bus_id) {
