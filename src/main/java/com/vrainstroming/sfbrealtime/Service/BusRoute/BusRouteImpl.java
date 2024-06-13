@@ -22,7 +22,7 @@ public class BusRouteImpl implements BusRouteService {
 
     static final int update_portion = 90;
 
-    int Cdist = 25;
+    int Cdist = 300;
 
     @Autowired
     BusRouteMapper busRouteMapper;
