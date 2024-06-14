@@ -26,6 +26,37 @@
     </update>
 
 
+    <update id="busMoveForce" >
+
+        update BUS_TB BT2 join
+            (select BT.id as bus_no ,BRT2.bus_station_id as now_st_id,BRT2.next_station_id as next_st_id
+            from BUS_ROUTE_TB BRT
+            join BUS_TB BT
+            on BRT.route_num = BT.id
+            and BT.now_station_no = BRT.bus_station_id
+            join BUS_ROUTE_TB BRT2
+            on BRT.next_course_id = BRT2.id) A
+        on BT2.id = A.bus_no
+
+            SET BT2.now_station_no = A.now_st_id,
+                BT2.next_station_no = A.next_st_id
+        where BT2.id > 0;
+        select * from BUS_TB;
+
+    </update>
+
+    <update id="resetBusStation">
+        update BUS_TB
+        set now_station_no = 3,
+            next_station_no =4
+    </update>
+
+    <update id="resetService">
+        update SERVICE_TB
+        set status = 'GettingOff'
+        where service_id >0;
+    </update>
+
 </mapper>
 
 

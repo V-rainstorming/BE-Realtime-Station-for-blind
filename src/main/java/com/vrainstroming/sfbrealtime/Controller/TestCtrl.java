@@ -56,6 +56,21 @@ public class TestCtrl {
         return ResponseEntity.ok().body(testMapper.getAzimuth());
     }
 
+    @GetMapping("/busMoveForce")
+    public ResponseEntity<?> busMoveForce(){
+        return ResponseEntity.ok().body(testMapper.busMoveForce());
+    }
+
+    @GetMapping("resetForShow")
+    public ResponseEntity<?> resetForShow(){
+
+        testMapper.resetBusStation();
+        testMapper.resetService();
+
+        return ResponseEntity.ok().build();
+    }
+
+
 
 
 

@@ -11,5 +11,8 @@ public interface TestMapper {
     List<Map> test();
     Map getAzimuth();
     int setAzimuth(Map dto);
+    int busMoveForce();
+    int resetBusStation();
+    int resetService();
 
 }
