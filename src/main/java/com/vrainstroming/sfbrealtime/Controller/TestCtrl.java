@@ -34,8 +34,8 @@ public class TestCtrl {
     @PostMapping("/azimuth")
     public ResponseEntity<?> setAzimuth(@RequestBody Map<String,Object> dto){
 
-        //int updatecnt = testMapper.setAzimuth(dto);
-        int updatecnt = 1;
+        int updatecnt = testMapper.setAzimuth(dto);
+        //int updatecnt = 1;
 
         Map ret = new HashMap<>();
         ret.put("code",updatecnt);
