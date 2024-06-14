@@ -27,7 +27,6 @@
 
 
     <update id="busMoveForce" >
-
         update BUS_TB BT2 join
             (select BT.id as bus_no ,BRT2.bus_station_id as now_st_id,BRT2.next_station_id as next_st_id
             from BUS_ROUTE_TB BRT
@@ -40,9 +39,7 @@
 
             SET BT2.now_station_no = A.now_st_id,
                 BT2.next_station_no = A.next_st_id
-        where BT2.id > 0;
-        select * from BUS_TB;
-
+        where BT2.id > 0
     </update>
 
     <update id="resetBusStation">
