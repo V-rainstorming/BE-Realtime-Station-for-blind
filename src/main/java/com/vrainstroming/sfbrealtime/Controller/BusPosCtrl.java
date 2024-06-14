@@ -289,6 +289,11 @@ public class BusPosCtrl {
         List<Map> routeList = busRoute.findBusRoute(dto);
         ret.put("data",routeList);
 
+        if(routeList.size() == 0){
+            ret.put("status","N"); // 버스정보
+            ret.put("code",514);
+            return ResponseEntity.ok().body(ret);
+        }
 
         log.info("/BlindBusRoute RES DATA : {}",ret);
 
