@@ -72,6 +72,13 @@ public class TestCtrl {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("waiting")
+    public ResponseEntity<?> changestatusIntoWaiting(){
+
+        testMapper.changePassengerStatusIntoWaiting();
+
+        return ResponseEntity.ok().build();
+    }
 
 
 

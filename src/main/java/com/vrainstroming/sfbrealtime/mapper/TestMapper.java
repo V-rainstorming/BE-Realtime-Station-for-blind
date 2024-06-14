@@ -14,5 +14,6 @@ public interface TestMapper {
     int busMoveForce();
     int resetBusStation();
     int resetService();
+    int changePassengerStatusIntoWaiting();
 
 }

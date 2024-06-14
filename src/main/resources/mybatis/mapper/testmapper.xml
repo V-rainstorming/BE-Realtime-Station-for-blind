@@ -54,6 +54,12 @@
         where service_id >0;
     </update>
 
+    <update id="changePassengerStatusIntoWaiting">
+        update SERVICE_TB
+        set status = 'waiting'
+        where status = 'findStation'
+    </update>
+
 </mapper>
 
 
