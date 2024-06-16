@@ -86,7 +86,10 @@ public class TestCtrl {
 
         Map dto = new HashMap<>();
         dto.put("bus_station_nickname",bus_station_nickname);
-        Map ret = testMapper.getBusStationNameByNickname(dto); // return station_name
+
+        Map ret = new HashMap<>();
+        ret.put("station_name",null);
+        ret.putAll(testMapper.getBusStationNameByNickname(dto)); // return station_name;
 
         return ResponseEntity.ok().body(ret);
 
