@@ -80,6 +80,19 @@ public class TestCtrl {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("BusStationName")
+    public ResponseEntity<?> changestatusIntoWaiting(@RequestParam(name = "bus_station_nickname") String bus_station_nickname){
+
+
+        Map dto = new HashMap<>();
+        dto.put("bus_station_nickname",bus_station_nickname);
+        Map ret = testMapper.getBusStationNameByNickname(dto); // return station_name
+
+        return ResponseEntity.ok().body(ret);
+
+
+    }
+
 
 
 

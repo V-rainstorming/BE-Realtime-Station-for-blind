@@ -60,6 +60,18 @@
         where status = 'findStation'
     </update>
 
+    <select id="getBusStationNameByNickname" parameterType="Map" resultType="Map">
+
+        select
+            BST.station_name as station_name
+        FROM BUS_STATION_SEARCH_TABLE BSST
+                 JOIN BUS_STATION_TB BST
+                      on BSST.bus_station_id = BST.id
+        WHERE bus_station_name = #{bus_station_nickname}
+
+
+    </select>
+
 </mapper>
 
 

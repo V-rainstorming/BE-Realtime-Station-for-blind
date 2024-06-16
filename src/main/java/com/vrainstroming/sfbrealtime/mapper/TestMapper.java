@@ -15,5 +15,7 @@ public interface TestMapper {
     int resetBusStation();
     int resetService();
     int changePassengerStatusIntoWaiting();
+    Map getBusStationNameByNickname(Map dto);
+
 
 }
