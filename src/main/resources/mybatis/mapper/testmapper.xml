@@ -44,8 +44,8 @@
 
     <update id="resetBusStation">
         update BUS_TB
-        set now_station_no = 3,
-            next_station_no =4
+        set now_station_no = 2,
+            next_station_no =3
     </update>
 
     <update id="resetService">
